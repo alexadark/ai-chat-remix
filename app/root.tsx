@@ -8,7 +8,6 @@ import {
 import styles from "./tailwind.css?url";
 import { LinksFunction } from "@remix-run/node";
 import Header from "./components/Header";
-import Footer from "./components/Footer";
 
 export const links: LinksFunction = () => [{ rel: "stylesheet", href: styles }];
 
@@ -23,8 +22,10 @@ export function Layout({ children }: { children: React.ReactNode }) {
       </head>
       <body className="dark">
         <Header />
-        {children}
-        <Footer />
+        <main className="prose dark:prose-invert max-w-none h-screen ">
+          <div className="container">{children}</div>
+        </main>
+
         <ScrollRestoration />
         <Scripts />
       </body>

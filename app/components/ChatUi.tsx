@@ -5,10 +5,10 @@ const ChatUi = () => {
     api: "/api/chat-api",
   });
   return (
-    <div className="w-full max-w-6xl mx-auto rounded-xl shadow-lg text-white">
-      <h2 className="text-2xl md:text-4xl font-bold text-center py-6 ">
-        AI Chat Experience
-      </h2>
+    <div className="flex flex-col justify-center max-w-[960px] mx-auto min-h-screen">
+      <h1 className="bg-gradient-to-r font-bold from-purple-500 to-pink-600 text-transparent bg-clip-text text-center">
+        Remix streaming chat
+      </h1>
       <section
         className="p-6 space-y-4 overflow-auto"
         style={{ maxHeight: "85vh" }}
@@ -21,13 +21,15 @@ const ChatUi = () => {
             }`}
           >
             <div
-              className={`max-w-lg px-4 py-2 m-2 rounded-lg shadow-md ${
+              className={`max-w-lg py-0 px-4 m-2 rounded-lg shadow-md ${
                 m.role === "user"
-                  ? "bg-zinc-300 text-black"
-                  : "bg-gray-800 text-gray-300"
+                  ? "bg-slate-300 text-black"
+                  : "bg-slate-800 text-gray-300"
               }`}
             >
-              <p className="whitespace-pre-wrap break-words">{m.content}</p>
+              <p className="whitespace-pre-wrap break-words my-3">
+                {m.content}
+              </p>
             </div>
           </div>
         ))}
@@ -35,15 +37,14 @@ const ChatUi = () => {
       <form onSubmit={handleSubmit} className="flex w-full p-6 ">
         <input
           type="text"
-          className="flex-grow h-12 px-4 mr-4 text-xl bg-white text-black rounded-lg focus:outline-none"
+          className="flex-grow h-12 px-4 mr-4 text-xl bg-white text-black focus:outline-none rounded-sm"
           value={input}
           placeholder="Type your message here..."
           onChange={handleInputChange}
-          autoFocus
         />
         <button
           type="submit"
-          className="px-6 h-12 bg-white text-black font-bold rounded-lg hover:bg-gray-300 focus:outline-none focus:ring-2 focus:ring-black focus:ring-offset-2"
+          className="px-6 h-12 text-slate-900 uppercase font-bold transition-colors duration-300 hover:bg-purple-600 focus:outline-none focus:ring-2 rounded-sm focus:ring-black focus:ring-offset-2 bg-gradient-to-l from-purple-500 to-pink-600"
         >
           Send
         </button>
