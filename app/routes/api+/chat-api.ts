@@ -1,25 +1,17 @@
 import { ActionFunctionArgs } from "@remix-run/node";
-import { OpenAIStream, StreamingTextResponse } from "ai";
-import OpenAI from "openai";
+import { openai } from "@ai-sdk/openai";
+import { StreamingTextResponse, streamText } from "ai";
 
 export const config = { runtime: "edge" };
 
-const openai = new OpenAI({
-  apiKey: process.env.OPENAI_API_KEY,
-});
-
 export async function action({ request }: ActionFunctionArgs) {
   const { messages } = await request.json();
-  const response = await openai.chat.completions.create({
-    model: "gpt-3.5-turbo",
-    stream: true,
+
+  const result = await streamText({
+    model: openai("gpt-3.5-turbo"),
     messages,
   });
 
-  // Convert the response into a friendly text-stream
-  const stream = OpenAIStream(response);
   // Respond with the stream
-  const aiResponse = new StreamingTextResponse(stream);
-
-  return aiResponse;
+  return new StreamingTextResponse(result.toAIStream());
 }
