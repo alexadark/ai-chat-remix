@@ -2,7 +2,7 @@ import { ActionFunctionArgs } from "@remix-run/node";
 import { OpenAIStream, StreamingTextResponse } from "ai";
 import OpenAI from "openai";
 
-export const config = { runtime: "edge" };
+// export const config = { runtime: "edge" };
 
 const openai = new OpenAI({
   apiKey: process.env.OPENAI_API_KEY,
