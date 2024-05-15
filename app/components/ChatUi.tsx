@@ -1,9 +1,39 @@
+import { useEffect, useState } from "react";
 import { useChat } from "ai/react";
 
-const ChatUi = () => {
+const ChatComponent = () => {
+  const [sessionId, setSessionId] = useState(null);
+
+  useEffect(() => {
+    // Ensure this code runs only on the client side
+    const storedSessionId =
+      localStorage.getItem("chatSessionId") || generateNewSessionId();
+    setSessionId(storedSessionId);
+    localStorage.setItem("chatSessionId", storedSessionId);
+
+    // Clear session ID on page reload
+    window.addEventListener("beforeunload", () => {
+      localStorage.removeItem("chatSessionId");
+    });
+
+    return () => {
+      window.removeEventListener("beforeunload", () => {
+        localStorage.removeItem("chatSessionId");
+      });
+    };
+  }, []);
+
+  // Initialize the chat hook with the session ID
   const { messages, input, handleInputChange, handleSubmit } = useChat({
     api: "/api/chat-api",
+    id: sessionId,
   });
+
+  // Function to generate a new session ID
+  function generateNewSessionId() {
+    return Math.random().toString(36).substring(2) + Date.now().toString(36);
+  }
+
   return (
     <div className="flex flex-col justify-center max-w-[960px] mx-auto min-h-screen">
       <h1 className="bg-gradient-to-r font-bold from-purple-500 to-pink-600 text-transparent bg-clip-text text-center">
@@ -53,4 +83,4 @@ const ChatUi = () => {
   );
 };
 
-export default ChatUi;
+export default ChatComponent;
